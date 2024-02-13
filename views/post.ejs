@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title><%= post.title %></title>
+        <script src="https://kit.fontawesome.com/cefe3c5094.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body style = "margin:0px; margin:7%; ">
+        <!-- <button onclick="history.back()" style="border:none; background-color:white;"><</button> -->
+        <button onclick="history.go(-1)" style="border:none; background-color:white;"></button>
+        <div class="post">
+            <!--title-->
+            <h1 style="text-align:center;"><%= post.title %></h1>
+
+            <form action="../delete<%= post.postID%>" method="get" style="width: 100%;">
+            <!--post info-->
+                <div class="post_info" style="display:flex;">
+                    <div style="margin-left:auto;">
+                        <!--author-->
+                        <div style="color:rgb(114, 114, 114); height:20px; display:table; padding-bottom:5px;">
+                            <i class="fas fa-solid fa-user" style="padding-right:7px; display:table-cell; vertical-align:middle;"></i>
+                            <span style="padding-left:5px; min-width:100px; background-color:rgb(242, 242, 242); display:table-cell; vertical-align:middle;"><%= post.author %></span> &nbsp;
+                        </div>
+                        
+                        <!--date-->
+                        <div style="color:rgb(114, 114, 114); height:20px; display:table;">
+                            <i class="fas fa-solid fa-calendar-days" style="padding-right:7px; display:table-cell; vertical-align:middle;"></i>
+                            <span style="padding-left:5px; height:20px; min-width:150px; background-color: rgb(242, 242, 242);display:table-cell; vertical-align:middle;"><%= (post.date+"").slice(4, -32) %></span> &nbsp;
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <!--text content-->
+                <p style="padding:20px; min-height:250px; border: 1px rgb(80, 80, 80) solid; white-space:pre-wrap; "><%= post.content %></p>
+                
+                <div style="display:flex; margin-top: 10px;">
+                    <button type="submit" onclick="location.href='../delete/<%= post.postID %>'" style="width:100px; height:25px; font-size: 15px; text-align: center; border: none; border-radius:5px; border: 1px solid rgb(198, 198, 198); background-color: rgb(219, 219, 219); margin-left:auto;">삭제</button>
+                </div>
+            </form>
+        </div>
+        <br>
+        <br>
+
+        <div class="comments_with_commentingbox" style="padding: 0 10px 0 10px; background-color: rgb(242, 242, 242);">
+            
+            <!--comments-->
+            <% if (comment.length === 0) { %>
+                <br>
+                <br>
+                <p style="text-align: center;">등록된 댓글이 없습니다.</p>
+                <br>
+                <br>
+            <% } else { %>
+                <% comment.forEach(com => { %>
+                    <hr style="height:1px; border:0; background-color: rgb(218, 218, 218)">
+
+                    <div style="padding:5px; min-height:60px; flex-direction: column; display: flex;">
+                        <div style="height:40px; padding: 3px 0 3px 0; width:100%; display:table; margin-bottom: auto;">
+                            <span style="display:table-cell; vertical-align:middle;"><%= com.content %></span>  <!--개행되게 만들어야 함-->
+                        </div>
+                        <div style="width:100%; height:20; display: flex;"> 
+                            <form action="../commentdelete<%= com.commentID %>" method="post" style="margin-top:auto; display:flex; width:100%;">
+                                <div style=" width: 94%; margin-right:1%; display: flex;">
+                                    <div style="color:rgb(114, 114, 114); height:20px; display:table;  font-size: small;">
+                                        <i class="fas fa-solid fa-user " style="padding-right:7px; display:table-cell; vertical-align:middle;"></i>
+                                        <span style="font-size: 12px; display:table-cell; vertical-align:middle;" > <%= com.author %> </span> &nbsp;
+                                    </div>
+                                    <span style="font-size: 10px; margin: auto 0 auto auto; color:rgb(114, 114, 114);"> <%= (com.date+"").slice(4, -32) %>  </span>
+                                </div>
+                                <button type="submit" onclick="location.href='../commentdelete<%= com.commentID %>'" style="padding:5px; width:5%; min-width:60px; font-size: 10px; text-align:center; border: 1px solid rgb(198, 198, 198); background-color:rgb(242, 242, 242); margin-left:auto;">댓글 삭제</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } %>
+            <hr style="height:1px; border:0; background-color: rgb(218, 218, 218);">
+
+            <!--commenting-->
+            <form action='../commenting<%= post.postID %>' method='post' style="margin-top: 17px;"> <!--form에 input이라면 enter키로 제출됨 onkeydown="return event.key != 'Enter';"으로 막을 수 있음 근데 textearea를 사용하면 엔터키로 input박스 안에서 개행 가능-->
+                <div style="height:50px; width:100%; display:flex;">
+                    <div style="color:rgb(114, 114, 114); display:table; margin-left:1%;"><i class="fa-regular fa-user fa-1.5x" style="padding-right: 5px; display:table-cell; vertical-align:middle;"></i></div>
+                    <input type='text' name='author' placeholder="작성자명" style=" width:90%; margin:3px 0 0 3px; height:44px; display:table-cell; vertical-align:middle; text-align: center; width:11%; margin-right:2%;"> &nbsp;             
+                    <div style="color:rgb(114, 114, 114); display:table;"></i><i class="fa-regular fa-comment" style="padding-right: 5px; display:table-cell; vertical-align:middle;"></i></div>
+                    <!-- <input type='text' name='content' placeholder="내용을 입력하세요." style="margin:3px 0 0 3px; height:44px; width:78%; margin-right:1%; display:table-cell; vertical-align:middle; padding-left: 10px;"></input>&nbsp;        -->
+                    <textarea name='content' placeholder="&#13;&#10;내용을 입력하세요." style="margin:3px 0 0 3px; height:44px; width:78%; margin-right:1%; display:table-cell; vertical-align:middle; padding-left: 10px; border: none;"></textarea> 
+                    <button type="submit" onclick="location.href='../commenting<%= post.postID %>'" style="padding:5px; width: 6%; font-size: 15px; text-align: center; border: none; border: 1px solid rgb(198, 198, 198); background-color: rgb(219, 219, 219);" >등록</button>
+                </div>
+            </form>
+            <hr style="height:1px; border:0; background-color: rgb(218, 218, 218)">
+        </div>
+    </body>
+</html>
+<!-- 댓글 내용이 없거나 저자가 없는 경우 submit 안되게 if else , 저자는 널이어도 돼 디비에서 디폴트를 익명으로 해주면 될 듯--> 
+<!--댓글이 10자 이상이면 안됨-->
+<!-- 플레이스 홀더로 수를 알려주면 될 것 같은데, 입력마다 수가 늘어나는 걸 볼 수 있도록 할 수 있나?-->
+
+<!--글쓰는 posting에서 overflow 스크롤로-->
+<!-- 댓글은 150자로 조정 보여줄수있게?-->
+<!-- 대댓글 고려 -->
+<!--이전페이지-->
