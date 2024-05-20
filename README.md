@@ -1,5 +1,5 @@
 # Simple-general-forum
-> mysql을 이용하여 CRUD를 실습하기 위해 간단한 인터넷 커뮤니티와 같은 게시판 웹서비스를 개발한다. CRUD는  DMBS(database management system)에서 데이터를 다루는 방법인 생성(Create), 조회(Read), 갱신(Update), 삭제(Delete)이다.
+> mysql을 이용하여 CRUD를 실습하기 위해 개발한 간단한 인터넷 커뮤니티와 같은 게시판 웹서비스
 
 # Project Stack
 - Node.js
